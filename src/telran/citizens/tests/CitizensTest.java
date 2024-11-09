@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,18 +16,15 @@ import telran.citizens.model.Person;
 class CitizensTest {
 	Citizens citizens;
 	LocalDate dateNow = LocalDate.now();
-	
 
 	@BeforeEach
 	void setUp() throws Exception {
-		citizens = new CitizensImpl(
-				Arrays.asList(new Person(347, "Vladimir", "Rogalev", dateNow.minusYears(31)),
-						new Person(348, "Mariia", "Rogalev", dateNow.minusYears(31)),
-						new Person(395, "Maya", "Rogalev", dateNow.minusYears(6)),
-						new Person(1, "Goldi", "Rogalev", dateNow.minusYears(3)),
-						new Person(245, "Mira", "Rogalev", dateNow.minusYears(0)))
-				);
-		
+		citizens = new CitizensImpl(Arrays.asList(new Person(347, "Vladimir", "Rogalev", dateNow.minusYears(31)),
+				new Person(348, "Mariia", "Rogalev", dateNow.minusYears(31)),
+				new Person(395, "Maya", "Rogalev", dateNow.minusYears(6)),
+				new Person(1, "Goldi", "Rogaleva", dateNow.minusYears(3)),
+				new Person(245, "Mira", "Rogalev", dateNow.minusYears(0))));
+
 	}
 
 	@Test
@@ -41,10 +38,10 @@ class CitizensTest {
 
 	@Test
 	void testRemove() {
-	assertFalse(citizens.remove(411));
-	assertEquals(5, citizens.size());
-	assertTrue(citizens.remove(348));
-	assertEquals(4, citizens.size());
+		assertFalse(citizens.remove(411));
+		assertEquals(5, citizens.size());
+		assertTrue(citizens.remove(348));
+		assertEquals(4, citizens.size());
 	}
 
 	@Test
@@ -52,37 +49,64 @@ class CitizensTest {
 		Person person = citizens.find(245);
 		assertEquals(245, person.getId());
 		assertEquals(0, person.getAge());
-	    assertNull(citizens.find(5));
+		assertNull(citizens.find(5));
 	}
 
 	@Test
 	void testFindIntInt() {
-		fail("Not yet implemented");
+		Iterable<Person> res = citizens.find(3, 6);
+		Iterable<Person> expected = List.of(new Person(1, "Goldi", "Rogalev", dateNow.minusYears(3)),
+				new Person(395, "Maya", "Rogalev", dateNow.minusYears(6)));
+
+		assertIterableEquals(expected, res);
 	}
 
 	@Test
 	void testFindString() {
-		fail("Not yet implemented");
+		Iterable<Person> res = citizens.find("Rogaleva");
+		Iterable<Person> expected = List.of(new Person(1, "Goldi", "Rogaleva", dateNow.minusYears(3)));
+
+		assertIterableEquals(expected, res);
 	}
 
 	@Test
 	void testGetAllPersonSortedById() {
-		fail("Not yet implemented");
+		Iterable<Person> res = citizens.getAllPersonSortedById();
+		Iterable<Person> expected = List.of(new Person(1, "Goldi", "Rogaleva", dateNow.minusYears(3)),
+				new Person(245, "Mira", "Rogalev", dateNow.minusYears(0)),
+				new Person(347, "Vladimir", "Rogalev", dateNow.minusYears(31)),
+				new Person(348, "Mariia", "Rogalev", dateNow.minusYears(31)),
+				new Person(395, "Maya", "Rogalev", dateNow.minusYears(6)));
+		assertIterableEquals(expected, res);
 	}
 
 	@Test
 	void testGetAllPersonSortedByLastName() {
-		fail("Not yet implemented");
+		Iterable<Person> res = citizens.getAllPersonSortedByLastName();
+		Iterable<Person> expected = List.of(
+
+				new Person(245, "Mira", "Rogalev", dateNow.minusYears(0)),
+				new Person(347, "Vladimir", "Rogalev", dateNow.minusYears(31)),
+				new Person(348, "Mariia", "Rogalev", dateNow.minusYears(31)),
+				new Person(395, "Maya", "Rogalev", dateNow.minusYears(6)),
+				new Person(1, "Goldi", "Rogaleva", dateNow.minusYears(3)));
+		assertIterableEquals(expected, res);
 	}
 
 	@Test
 	void testGetAllPersonSortedByAge() {
-		fail("Not yet implemented");
+		Iterable<Person> res = citizens.getAllPersonSortedByAge();
+		Iterable<Person> expected = List.of(new Person(245, "Mira", "Rogalev", dateNow.minusYears(0)),
+				new Person(1, "Goldi", "Rogaleva", dateNow.minusYears(3)),
+				new Person(395, "Maya", "Rogalev", dateNow.minusYears(6)),
+				new Person(347, "Vladimir", "Rogalev", dateNow.minusYears(31)),
+				new Person(348, "Mariia", "Rogalev", dateNow.minusYears(31)));
+		assertIterableEquals(expected, res);
 	}
 
 	@Test
 	void testSize() {
-		fail("Not yet implemented");
+		assertEquals(5, citizens.size());
 	}
 
 }
