@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import telran.citizens.dao.Citizens;
 import telran.citizens.dao.CitizensImpl;
+import telran.citizens.dao.CitizensStreamTreeSetImpl;
 import telran.citizens.dao.CitizensTreeSetImpl;
 import telran.citizens.model.Person;
 
@@ -20,7 +21,7 @@ class CitizensTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		citizens = new CitizensTreeSetImpl(Arrays.asList(new Person(347, "Vladimir", "Rogalev", dateNow.minusYears(31)),
+		citizens = new CitizensStreamTreeSetImpl(Arrays.asList(new Person(347, "Vladimir", "Rogalev", dateNow.minusYears(31)),
 				new Person(348, "Mariia", "Rogalev", dateNow.minusYears(31)),
 				new Person(395, "Maya", "Rogalev", dateNow.minusYears(6)),
 				new Person(1, "Goldi", "Rogaleva", dateNow.minusYears(3)),
